@@ -161,10 +161,10 @@ end
 
 
 --update method: dt = delta time , loop = whether or not this anim should be looped
-function anim:play(dt,loop)
+function anim:play(loop)
     if not self.stop then
         self.loop = loop
-        self.currSpeed = self.currSpeed + dt
+        self.currSpeed = self.currSpeed + love.timer.getDelta()
         --increment the currentFrame when needed
         if self.speed > 0 then
             if self.currFrame == 0 and self.startFrame >= 1 then
