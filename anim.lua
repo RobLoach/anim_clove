@@ -174,6 +174,13 @@ function anim:play(loop)
                 self.currFrame = self.currFrame + 1
                 self.currSpeed = 0
             end
+			--[[
+			-- Note:
+			-- When you have no speed attached to your animation that means
+			-- you want to play only the first quad added in 'add' function
+			--]]
+		elseif self.speed == 0 then
+			self.currFrame = self.startFrame
         end
         --do we have custom quads?
         if not self.custom then
