@@ -2,7 +2,7 @@ Usage
 -------
 
 Simple and easy to use library for animations 
-written in Lua for (C)Love(see github).
+written in Lua for (C)Love.
 
 For documentation see anim.lua
 
