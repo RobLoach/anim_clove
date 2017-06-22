@@ -93,7 +93,7 @@ function anim:add(startFrame, stopFrame, speed)
     self.startFrame = startFrame or 1
 end
 
---set manualy your quads in this case anim:add will not work.
+--set manually your quads in this case anim:add will not work.
 --[[ e.g: 
 local idle_shoot_quad = 
 -{
@@ -108,6 +108,7 @@ function anim:addf(frames, speed)
 end
 
 --draw your animation 
+-- x and y are mandatory 
 function anim:draw(x, y, rot, sx, sy, kx, ky)
     rot = rot or 0
     sx = sx or 1
@@ -127,7 +128,7 @@ function anim:draw(x, y, rot, sx, sy, kx, ky)
     end
 end
 
---when you reach a certain frame stop/pause the frame
+--when you reach a certain frame stop the frame
 function anim:stopAt(frame)
     if self.currFrame == frame then
         self.currFrame = frame
@@ -160,7 +161,7 @@ function anim:getFrame()
 end
 
 
---update method: dt = delta time , loop = whether or not this anim should be looped
+--update method: loop = whether or not this anim should be looped
 function anim:play(loop)
     if not self.stop then
         self.loop = loop
