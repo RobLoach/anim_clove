@@ -22,7 +22,7 @@ require "anim"
     end
 
     function love.draw()
-        - x, y, rot, sx, sy, kx, ky
+        -- x, y, rot, sx, sy, kx, ky
         currentAnim:draw(100, 100)
     end
 
