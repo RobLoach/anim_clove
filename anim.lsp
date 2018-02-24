@@ -55,29 +55,29 @@
 
 		 (set:anim-fx lsp (floor (/ (anim:img-w lsp) (anim:w lsp))))
 
-		 (= add (list nil))
-		 [ dotimes (= i 1) (+ (anim:f lsp) 1)
+		 (= add nil)
+		 [ dotimes (= i 0) (+ (anim:f lsp) 1)
 				   (= row (floor (/ (- i 1) (anim:fx lsp))))
 				   (= column (mod (- i 1) (anim:fx lsp)))
 				   (= add (append add (love:graphics-newQuad 
-										(* column (anim:w lsp))
-										(* row (anim:h lsp))
-										(anim:w lsp)
-										(anim:h lsp)
-										(anim:img-w lsp)
-										(anim:img-h lsp))))
+												(* column (anim:w lsp))
+												(* row (anim:h lsp))
+												(anim:w lsp)
+												(anim:h lsp)
+												(anim:img-w lsp)
+												(anim:img-h lsp))))
 				   (set:anim-frames lsp add)]]]
-
+									
 
   [= anim:add 
 	 [fn (lsp start_frame stop_frame speed)
-
-		 (anim:_makeFrame lsp)
-		 (set:anim-stop-frame lsp stop_frame)
-		 (set:anim-start-frame lsp start_frame)
-		 (set:anim-speed lsp speed) 	
-
-		 ]]
+			
+		(anim:_makeFrame lsp)
+		(set:anim-stop-frame lsp stop_frame)
+		(set:anim-start-frame lsp start_frame)
+	    (set:anim-speed lsp speed) 	
+		(print (anim:frames lsp))
+		]]
 
   [= anim:draw 
 	 [fn (lsp x y rot sx sy kx ky)
@@ -86,18 +86,17 @@
 		 (= sy (if (not sy) 1 sy))
 		 (= kx (if (not kx) 0 kx))
 		 (= ky (if (not ky) 0 ky))
-
+		 
 		 [if (not (endp (anim:frames lsp)))
-		   [love:graphics-drawQuad 
+		 	[love:graphics-drawQuad 
 			 (anim:img lsp)
 			 (nth (anim:frames lsp) (anim:curr-frame lsp))
 			 x y rot sx sy kx ky]
 
-		   (love:graphics-drawImage (anim:img lsp) x y rot sx sy kx ky)]
-		 ]]
+		   (love:graphics-drawImage (anim:img lsp) x y rot sx sy kx ky)]]]
 
   [= anim:play [fn (lsp t_loop)
-				   [if (endp (anim:stop lsp))
+			   [if (endp (anim:stop lsp))
 					 [do
 					   (set:anim-loop lsp t_loop)
 					   (set:anim-curr-speed lsp (+ (anim:curr-speed lsp) (love:timer-getDelta)))
@@ -133,8 +132,30 @@
 							 (when (> (anim:start-frame lsp ) 0) 
 							   (set:anim-curr-frame lsp (anim:start-frame lsp)))
 							 (set:anim-curr-frame lsp (anim:stop-frame lsp))
-							 )
-						   )		   )
-					   ]]]]
+							 )))
+					]]]]
+
+  ; Lets say you got an animation from frame eg: 1 through 4. If your current frame reached the end,in this case 4,
+  ;then this func will return true. If the animation is looped you'll get multiple returns of "true" else only once
+  [ = anim:read-end [fn (lsp)
+					   (if (>= (anim:curr-frame lsp) (anim:stop-frame lsp))
+						 t
+						 nil)]]
+
+  [ = anim:getLength [fn (lsp) 
+						(length (anim:frames lsp))]]
+
+  [ = anim:pause [fn (lsp) 
+					 (set:anim-stop lsp t)]]
+
+  [ = anim:resume [fn (lsp) 
+					 (set:anim-stop lsp nil)]]
+
+  [ = anim:set-frame [fn (lsp frame) 
+					 (set:anim-curr-frame lsp frame)]]
+
+  [ = anim:get-frame [fn (lsp) 
+					 (anim:curr-frame lsp)]]
+ 
 
   )
